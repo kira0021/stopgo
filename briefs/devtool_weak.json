@@ -1,0 +1,33 @@
+{
+  "demo_fixture": true,
+  "idea": "A CLI that pretty-prints JSON files with colours",
+  "skills": [
+    "JavaScript"
+  ],
+  "budget_usd": 0,
+  "hours_per_week": 4,
+  "target_market": "Anyone who opens JSON files",
+  "values": "Simple tools",
+  "known_alternatives": [
+    {
+      "name": "jq",
+      "url": "https://github.com/jqlang/jq",
+      "note": "Free, widely installed command-line JSON processor; pretty-prints with colours by default"
+    },
+    {
+      "name": "python -m json.tool",
+      "url": "https://docs.python.org/3/library/json.html#module-json.tool",
+      "note": "Ships with Python; pretty-prints JSON from the command line"
+    }
+  ],
+  "evidence": {
+    "interviews": {
+      "completed": 6,
+      "problem_confirmed": 1,
+      "notes": [
+        "DEMO FIXTURE: 5 of 6 said they already use jq or their editor's formatter and have no problem today",
+        "DEMO FIXTURE: 1 mentioned wanting colours in CI logs once"
+      ]
+    }
+  }
+}

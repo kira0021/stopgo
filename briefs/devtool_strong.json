@@ -1,0 +1,40 @@
+{
+  "demo_fixture": true,
+  "idea": "A small CLI that checks a project's .env file against .env.example and flags missing, empty or unused variables before deploy",
+  "skills": [
+    "Python",
+    "DevOps",
+    "writing docs"
+  ],
+  "budget_usd": 50,
+  "hours_per_week": 12,
+  "target_market": "Backend developers and small DevOps teams deploying twelve-factor apps",
+  "values": "Open source first, no dark patterns, privacy by default",
+  "known_alternatives": [
+    {
+      "name": "dotenv-linter",
+      "url": "https://github.com/dotenv-linter/dotenv-linter",
+      "note": "Open-source linter for .env files; checks syntax, not drift against .env.example"
+    },
+    {
+      "name": "The Twelve-Factor App: III. Config",
+      "url": "https://12factor.net/config",
+      "note": "Recommends storing deploy config in environment variables, the practice this tool supports"
+    }
+  ],
+  "evidence": {
+    "interviews": {
+      "completed": 8,
+      "problem_confirmed": 6,
+      "notes": [
+        "DEMO FIXTURE: 6 of 8 described a deploy that failed on a missing env var in the last 3 months",
+        "DEMO FIXTURE: 2 already wrote ad-hoc shell scripts to diff env files"
+      ]
+    },
+    "waitlist": {
+      "target": 100,
+      "window_days": 14,
+      "signups": 112
+    }
+  }
+}
