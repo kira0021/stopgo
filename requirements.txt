@@ -1,0 +1,3 @@
+# The app itself uses only the Python standard library.
+# pytest is used for the smoke tests and for testing the MVP the Build phase generates.
+pytest>=8.0

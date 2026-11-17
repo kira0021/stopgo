@@ -1,0 +1,58 @@
+# One-command setup: `docker compose up`, then open http://localhost:8000
+#
+# Services:
+#   ollama       - local open-weight model server (no API key, no cost)
+#   ollama-pull  - one-shot job that downloads the model on first start
+#   app          - StopGo web UI + pipeline (founder approves every gated action)
+#
+# The app starts immediately. Until the model has finished downloading it runs
+# with the STUBBED LLM, and the UI shows a "LLM: STUBBED" banner on every page.
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama_models:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+
+  ollama-pull:
+    image: ollama/ollama:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    entrypoint: ["/bin/sh", "-c", "ollama pull ${OLLAMA_MODEL:-qwen3:4b}"]
+    restart: "no"
+
+  app:
+    build: .
+    depends_on:
+      ollama:
+        condition: service_healthy
+    ports:
+      - "${STOPGO_PORT:-8000}:8000"
+    environment:
+      LLM_PROVIDER: ${LLM_PROVIDER:-ollama}
+      LLM_FALLBACK: ${LLM_FALLBACK:-stub}
+      OLLAMA_HOST: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen3:4b}
+      OPENAI_COMPAT_BASE_URL: ${OPENAI_COMPAT_BASE_URL:-}
+      OPENAI_COMPAT_API_KEY: ${OPENAI_COMPAT_API_KEY:-}
+      OPENAI_COMPAT_MODEL: ${OPENAI_COMPAT_MODEL:-}
+      EVIDENCE_OFFLINE: ${EVIDENCE_OFFLINE:-0}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      STOPGO_RUNS_DIR: /app/runs
+    volumes:
+      - ./runs:/app/runs
+      - ./outputs:/app/outputs
+      - ./decision_log.json:/app/decision_log.json
+    restart: unless-stopped
+
+volumes:
+  ollama_models:
